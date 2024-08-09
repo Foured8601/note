@@ -152,7 +152,7 @@
         const h = document.getElementById('h').value;
         const i = document.getElementById('i').value;
         const j = document.getElementById('j').value;
-	const order = "Please help me revise the following medical case report to correct grammatical errors and enhance professional tone. Ensure that all dates are formatted as YYYY/MM/DD or MM/DD and try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Here is the text:";
+	const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:. Try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Please do not significantly modify the narrative style of the content.  Here is the text:";
         
         const mergedText = `This is a ${a} with a history of ${b}. According to the patient's statement, he/she suffered from ${c}. Associated symptoms included ${d}. Denied symptoms included ${e}. After that, ${k}. Physical exam showed ${f}. Lab data showed ${g}. Image findings showed ${h}. Under the impression of ${i}, the patient was admitted to our ward for further management ${j}.`;
 
@@ -200,7 +200,7 @@
 	 // 新增的useNewText函數
     function useNewText() {
         const newText = document.getElementById('newText').value;
-	const order = "Please help me revise the following medical case report to correct grammatical errors and enhance professional tone. Ensure that all dates are formatted as YYYY/MM/DD or MM/DD and try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Here is the text:";
+	const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:";
 
         // 使用新的文本框內容作為mergedText
         const mergedText = newText;

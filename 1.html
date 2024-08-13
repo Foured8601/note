@@ -133,12 +133,25 @@
    	 <p>若生成失敗，建議先使用 CHATGPT3.5</p>
     	<a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
 	</div>
+	<div>
+            <label for="txtContent">NIHSS.txt Content</label>
+            <textarea id="txtContent" readonly></textarea>
+        </div>
 	<div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
 
 
 	
     </form>
     <script>
+	     // Fetch and display the content of the NIHSS.txt file
+        fetch('NIHSS.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('txtContent').textContent = data;
+            })
+            .catch(error => {
+                console.error('Error fetching the NIHSS.txt:', error);
+            });
         function mergeAndSendRequest() {
             // Collect input values
         const a = document.getElementById('a').value;

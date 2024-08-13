@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
-    <title>Formatted Medical Report Form with API Request</title>
+    <title>Formatted Medical Report Form with NIH Stroke Scale</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -10,19 +10,45 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
         }
+
+        .main-content {
+            flex: 2;
+            margin-right: 20px;
+        }
+
+        .sidebar {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    height: fit-content;
+    margin: 0;
+    line-height: 1.2; /* 控制行距 */
+}
+
+.sidebar p {
+    margin: 0; /* 移除段落之間的間距 */
+    line-height: 1.2; /* 確保行距一致 */
+    white-space: pre; /* 保持文本格式，確保複製後沒有多餘空行 */
+}
+
         h1 {
             text-align: center;
             color: #333;
         }
+
         form {
-            margin: 20px auto;
-            width: 90%;
-            max-width: 600px;
             background: #fff;
             padding: 20px;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+
         textarea, #apiResponse {
             width: calc(100% - 20px);
             margin-bottom: 10px;
@@ -31,6 +57,7 @@
             border-radius: 5px;
             resize: none;
         }
+
         button {
             width: 100%;
             padding: 10px;
@@ -40,22 +67,26 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #5058e5;
         }
+
         label {
             margin-bottom: 5px;
             display: block;
             color: #666;
         }
+
         #apiResponse {
-            white-space: pre-wrap; /* Made by Shih-Hung Wang 2024.05.17 */
+            white-space: pre-wrap;
             background: #f4f4f4;
             padding: 10px;
             border: 1px solid #ccc;
             margin-top: 20px;
         }
-	 .watermark {
+
+        .watermark {
             position: fixed;
             bottom: 10px;
             right: 10px;
@@ -66,109 +97,154 @@
     </style>
 </head>
 <body>
-    <h1>Admission Note with AI Integration</h1>
-    <form id="textForm">
-        <div>
-            <label for="a">This is a</label>
-            <textarea id="a" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="b">with a history of</label>
-            <textarea id="b" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="c">According to the patient's statement, he/she suffered from</label>
-            <textarea id="c" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="d">Associated symptoms included</label>
-            <textarea id="d" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="e">Denied symptoms included</label>
-            <textarea id="e" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="k">After that,</label>
-            <textarea id="k" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="f">Physical exam showed</label>
-            <textarea id="f" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="g">Lab data showed</label>
-            <textarea id="g" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="h">Image findings showed</label>
-            <textarea id="h" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="i">Under the impression of</label>
-            <textarea id="i" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="j">, the patient was admitted to our ward for further management</label>
-            <textarea id="j" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <button type="button" onclick="mergeAndSendRequest()">合併內容並生成</button>
-        </div>
+    <div class="main-content">
+        <h1>Admission Note with AI Integration</h1>
+        <form id="textForm">
+            <div>
+                <label for="a">This is a</label>
+                <textarea id="a" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="b">with a history of</label>
+                <textarea id="b" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="c">According to the patient's statement, he/she suffered from</label>
+                <textarea id="c" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="d">Associated symptoms included</label>
+                <textarea id="d" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="e">Denied symptoms included</label>
+                <textarea id="e" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="k">After that,</label>
+                <textarea id="k" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="f">Physical exam showed</label>
+                <textarea id="f" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="g">Lab data showed</label>
+                <textarea id="g" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="h">Image findings showed</label>
+                <textarea id="h" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="i">Under the impression of</label>
+                <textarea id="i" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="j">, the patient was admitted to our ward for further management</label>
+                <textarea id="j" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <button type="button" onclick="mergeAndSendRequest()">合併內容並生成</button>
+            </div>
 
-	<div>
-        <label for="newText">Complete Medical Record</label>
-        <textarea id="newText" rows="4" cols="50"></textarea>
-   	 </div>
-   	 <div>
-        <button type="button" onclick="useNewText()">開始進行生成</button>
-   	 </div>
+            <div>
+                <label for="newText">Complete Medical Record</label>
+                <textarea id="newText" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <button type="button" onclick="useNewText()">開始進行生成</button>
+            </div>
 
+            <div>
+                <p id="mergedText"></p>
+            </div>
+            <div id="apiResponse"></div>
+            <div>
+                <p>若生成失敗，建議先使用 CHATGPT3.5</p>
+                <a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
+            </div>
+            <div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
+        </form>
+    </div>
 
-        <div>
-            <p id="mergedText"></p>
-        </div>
-        <div id="apiResponse"></div> <!-- Display API response here -->
-	<div>
-   	 <p>若生成失敗，建議先使用 CHATGPT3.5</p>
-    	<a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
-	</div>
-	<div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
+    <div class="sidebar">
+<h2>PE</h2> 
+HEENT: <br>
+no facial swelling, anicteric sclera/not pale conjunctiva<br>
+Neck: <br>
+supple without lymphadenopathy<br>
+Tonsil: <br>
+no swelling, no discharge<br>
+Chest: <br>
+symmetrical expansion, no accessory muscle used<br>
+Breath sound: <br>
+crackles (-) wheezing (-)<br>
+Heart: <br>
+regular heart rate without obvious murmur<br>
+Abdomen: <br>
+soft and flat, normal-active bowel sounds, no tenderness, no muscle guarding, no rebounding pain, no Mcburney point tenderness, Murphy sign (-), obturator sign (-) Psoas sign (-) Rosving sign (-)<br>
+Ext: <br>
+free movable without pitting edema<br>
+Back: <br>
+no costovertebral angle knocking tenderness<br>
 
-
-	
-    </form>
+        <h2>NIH Stroke Scale</h2>
+        1a 意識障礙程度(0-3):<br>
+	1b 意識障礙程度:回答問題(0-2):<br>
+	1c 意識障礙程度:照命令做動作(0-2):<br>
+        2 眼球運動(0-2):<br>
+        3 視力(0-3):<br>
+        4 顏面麻痺(0-3):<br>
+        5aL 左上肢運動(0-4):<br>
+        5bR 右上肢運動(0-4):<br>
+        6aL 左下肢運動(0-4):<br>
+        6bR 右下肢運動(0-4):<br>
+        7 肢體動作不協調(0-2):<br>
+        8 感覺障礙(0-2):<br>
+        9 言語障礙(0-3):<br>
+        10 構音障礙(0-2):<br>
+        11 感覺忽視(0-2):<br>
+	總分:<br>
+<h2>NE</h2>
+         E4V5M6<br>
+    [Cranial nerve]<br>
+    Pupil reflex 3+/3+<br>
+    EOM full, VF intact, ptosis(-), nystagmus(-)<br>
+    Facial sensation: onion skin normal, light touch symmetrical<br>
+    Facial palsy(-)<br>
+    Tongue deviation(-)<br>
+    Dysarthria(-)<br>
+    [Muscle power]<br>
+    RUL5, RLL5, LUL5, LLL5<br>
+    [DTR]<br>
+    ++/++<br>
+    [Reflex]<br>
+    Babinski(R/L): withdraw/withdraw<br>
+    [Cerebellum]<br>
+    FNF: no dysmetria<br>
+    HKS: no dysmetria<br>
+    [Sensation]<br>
+    Light touch: intact<br>
+    Pinprick: intact
+    </div>
     <script>
-	      // Fetch and display the content of the NIHSS.txt file
-        fetch('NIHSS.txt')
-    .then(response => {
-        console.log(response.status);  // 檢查回應狀態
-        return response.text();
-    })
-    .then(data => {
-        console.log(data);  // 檢查回應內容
-        document.getElementById('txtContent').textContent = data;
-    })
-    .catch(error => {
-        console.error('Error fetching the NIHSS.txt:', error);
-    });
-
         function mergeAndSendRequest() {
             // Collect input values
-        const a = document.getElementById('a').value;
-        const b = document.getElementById('b').value;
-        const c = document.getElementById('c').value;
-        const d = document.getElementById('d').value;
-        const e = document.getElementById('e').value;
-        const k = document.getElementById('k').value;
-        const f = document.getElementById('f').value;
-        const g = document.getElementById('g').value;
-        const h = document.getElementById('h').value;
-        const i = document.getElementById('i').value;
-        const j = document.getElementById('j').value;
-	const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:. Try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Please do not significantly modify the narrative style of the content.  Here is the text:";
-        
-        const mergedText = `This is a ${a} with a history of ${b}. According to the patient's statement, he/she suffered from ${c}. Associated symptoms included ${d}. Denied symptoms included ${e}. After that, ${k}. Physical exam showed ${f}. Lab data showed ${g}. Image findings showed ${h}. Under the impression of ${i}, the patient was admitted to our ward for further management ${j}.`;
+            const a = document.getElementById('a').value;
+            const b = document.getElementById('b').value;
+            const c = document.getElementById('c').value;
+            const d = document.getElementById('d').value;
+            const e = document.getElementById('e').value;
+            const k = document.getElementById('k').value;
+            const f = document.getElementById('f').value;
+            const g = document.getElementById('g').value;
+            const h = document.getElementById('h').value;
+            const i = document.getElementById('i').value;
+            const j = document.getElementById('j').value;
+            const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:. Try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Please do not significantly modify the narrative style of the content. Here is the text:";
+
+            const mergedText = `This is a ${a} with a history of ${b}. According to the patient's statement, he/she suffered from ${c}. Associated symptoms included ${d}. Denied symptoms included ${e}. After that, ${k}. Physical exam showed ${f}. Lab data showed ${g}. Image findings showed ${h}. Under the impression of ${i}, the patient was admitted to our ward for further management ${j}.`;
 
             // Display merged text
             document.getElementById('mergedText').textContent = mergedText;

@@ -66,10 +66,8 @@
     </style>
 </head>
 <body>
-    <h1>Admission Note with AI Integration</h1>
-	<div class="container">
-		 <div class="main-content">
     <form id="textForm">
+        <h1>Admission Note with AI Integration</h1>
         <div>
             <label for="a">This is a</label>
             <textarea id="a" rows="4" cols="50"></textarea>
@@ -118,31 +116,46 @@
             <button type="button" onclick="mergeAndSendRequest()">合併內容並生成</button>
         </div>
 
-	<div>
-        <label for="newText">Complete Medical Record</label>
-        <textarea id="newText" rows="4" cols="50"></textarea>
-   	 </div>
-   	 <div>
-        <button type="button" onclick="useNewText()">開始進行生成</button>
-   	 </div>
+        <div>
+            <label for="newText">Complete Medical Record</label>
+            <textarea id="newText" rows="4" cols="50"></textarea>
+        </div>
+        <div>
+            <button type="button" onclick="useNewText()">開始進行生成</button>
+        </div>
 
         <div>
             <p id="mergedText"></p>
         </div>
         <div id="apiResponse"></div> <!-- Display API response here -->
-	<div>
-   	 <p>若生成失敗，建議先使用 CHATGPT3.5</p>
-    	<a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
-	</div>
-	<div class="watermark">Made by Shih-Hung Wang 2024.05.17
-	</div>
-    </form>
-	</div>
-        <div class="sidebar">
-            <label for="txtContent">NIHSS.txt Content</label>
-            <textarea id="txtContent" readonly rows="20"></textarea>
+        <div>
+            <p>若生成失敗，建議先使用 CHATGPT3.5</p>
+            <a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
         </div>
-    </div>		  
+        <div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
+    </form>
+
+    <div class="nihss-form">
+        <h2>NIH Stroke Scale</h2>
+        <table>
+            <tr><td>1a 意識障礙程度 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
+            <tr><td>1b 意識障礙程度:回答問題 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>1c 意識障礙程度:照命令做動作 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>2 眼球運動 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>3 視力 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
+            <tr><td>4 顏面麻痺 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
+            <tr><td>5aL 左上肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
+            <tr><td>5bR 右上肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
+            <tr><td>6aL 左下肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
+            <tr><td>6bR 右下肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
+            <tr><td>7 肢體動作不協調 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>8 感覺障礙 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>9 言語障礙 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
+            <tr><td>10 構音障礙 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>11 感覺忽視 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
+            <tr><td>總分:</td><td><input type="number" disabled></td></tr>
+        </table>
+    </div>	  
     <script>
 	     // Fetch and display the content of the NIHSS.txt file
         fetch('NIHSS.txt')

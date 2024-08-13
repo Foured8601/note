@@ -246,6 +246,15 @@
             document.getElementById('apiResponse').textContent = 'Error: ' + error;
         });
     }
+	     function autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto'; // 先將高度設為 auto，讓它可以縮小
+        textarea.style.height = (textarea.scrollHeight) + 'px'; // 根據內容自動調整高度
+    }
+
+    document.querySelectorAll('textarea').forEach(textarea => {
+        textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+        autoResizeTextarea(textarea); // 初始化時調整高度
+    });
     </script>
 </body>
 </html> 

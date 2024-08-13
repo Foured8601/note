@@ -134,9 +134,15 @@
    	 <p>若生成失敗，建議先使用 CHATGPT3.5</p>
     	<a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
 	</div>
-	    <div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
+	<div class="watermark">Made by Shih-Hung Wang 2024.05.17
+	</div>
     </form>
-			  
+	</div>
+        <div class="sidebar">
+            <label for="txtContent">NIHSS.txt Content</label>
+            <textarea id="txtContent" readonly rows="20"></textarea>
+        </div>
+    </div>		  
     <script>
 	     // Fetch and display the content of the NIHSS.txt file
         fetch('NIHSS.txt')

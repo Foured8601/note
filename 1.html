@@ -139,6 +139,20 @@
 	
     </form>
     <script>
+	      // Fetch and display the content of the NIHSS.txt file
+        fetch('NIHSS.txt')
+    .then(response => {
+        console.log(response.status);  // 檢查回應狀態
+        return response.text();
+    })
+    .then(data => {
+        console.log(data);  // 檢查回應內容
+        document.getElementById('txtContent').textContent = data;
+    })
+    .catch(error => {
+        console.error('Error fetching the NIHSS.txt:', error);
+    });
+
         function mergeAndSendRequest() {
             // Collect input values
         const a = document.getElementById('a').value;

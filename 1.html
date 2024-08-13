@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
@@ -15,16 +15,28 @@
             text-align: center;
             color: #333;
         }
-        form {
+        .container {
+            display: flex;
+            flex-wrap: nowrap; /* Keep form and sidebar side by side */
+            max-width: 1200px;
             margin: 20px auto;
-            width: 90%;
-            max-width: 600px;
             background: #fff;
-            padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        .main-content {
+            flex: 2;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .sidebar {
+            flex: 1;
+            padding: 20px;
+            background-color: #f4f4f4;
+            overflow-y: auto;
+            max-height: 100vh; /* Ensure the sidebar doesn't overflow the viewport */
+        }
         textarea, #apiResponse {
-            width: calc(100% - 20px);
+            width: 100%;
             margin-bottom: 10px;
             padding: 10px;
             border: 1px solid #ddd;
@@ -49,13 +61,13 @@
             color: #666;
         }
         #apiResponse {
-            white-space: pre-wrap; /* Made by Shih-Hung Wang 2024.05.17 */
+            white-space: pre-wrap;
             background: #f4f4f4;
             padding: 10px;
             border: 1px solid #ccc;
             margin-top: 20px;
         }
-	 .watermark {
+        .watermark {
             position: fixed;
             bottom: 10px;
             right: 10px;
@@ -66,115 +78,111 @@
     </style>
 </head>
 <body>
-    <form id="textForm">
-        <h1>Admission Note with AI Integration</h1>
-        <div>
-            <label for="a">This is a</label>
-            <textarea id="a" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="b">with a history of</label>
-            <textarea id="b" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="c">According to the patient's statement, he/she suffered from</label>
-            <textarea id="c" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="d">Associated symptoms included</label>
-            <textarea id="d" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="e">Denied symptoms included</label>
-            <textarea id="e" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="k">After that,</label>
-            <textarea id="k" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="f">Physical exam showed</label>
-            <textarea id="f" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="g">Lab data showed</label>
-            <textarea id="g" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="h">Image findings showed</label>
-            <textarea id="h" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="i">Under the impression of</label>
-            <textarea id="i" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <label for="j">, the patient was admitted to our ward for further management</label>
-            <textarea id="j" rows="4" cols="50"></textarea>
-        </div>
-        <div>
-            <button type="button" onclick="mergeAndSendRequest()">合併內容並生成</button>
+    <div class="container">
+        <div class="main-content">
+            <form id="textForm">
+                <h1>Admission Note with AI Integration</h1>
+                <div>
+                    <label for="a">This is a</label>
+                    <textarea id="a" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="b">with a history of</label>
+                    <textarea id="b" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="c">According to the patient's statement, he/she suffered from</label>
+                    <textarea id="c" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="d">Associated symptoms included</label>
+                    <textarea id="d" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="e">Denied symptoms included</label>
+                    <textarea id="e" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="k">After that,</label>
+                    <textarea id="k" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="f">Physical exam showed</label>
+                    <textarea id="f" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="g">Lab data showed</label>
+                    <textarea id="g" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="h">Image findings showed</label>
+                    <textarea id="h" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="i">Under the impression of</label>
+                    <textarea id="i" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <label for="j">, the patient was admitted to our ward for further management</label>
+                    <textarea id="j" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <button type="button" onclick="mergeAndSendRequest()">合併內容並生成</button>
+                </div>
+
+                <div>
+                    <label for="newText">Complete Medical Record</label>
+                    <textarea id="newText" rows="4" cols="50"></textarea>
+                </div>
+                <div>
+                    <button type="button" onclick="useNewText()">開始進行生成</button>
+                </div>
+
+                <div>
+                    <p id="mergedText"></p>
+                </div>
+                <div id="apiResponse"></div> <!-- Display API response here -->
+                <div>
+                    <p>若生成失敗，建議先使用 CHATGPT3.5</p>
+                    <a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
+                </div>
+                <div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
+            </form>
         </div>
 
-        <div>
-            <label for="newText">Complete Medical Record</label>
-            <textarea id="newText" rows="4" cols="50"></textarea>
+        <div class="sidebar">
+            <h2>NIHSS Content</h2>
+            <textarea id="txtContent" readonly rows="20"></textarea>
         </div>
-        <div>
-            <button type="button" onclick="useNewText()">開始進行生成</button>
-        </div>
-
-        <div>
-            <p id="mergedText"></p>
-        </div>
-        <div id="apiResponse"></div> <!-- Display API response here -->
-        <div>
-            <p>若生成失敗，建議先使用 CHATGPT3.5</p>
-            <a href="https://chat.openai.com/chat" target="_blank">https://chat.openai.com/chat</a>
-        </div>
-        <div class="watermark">Made by Shih-Hung Wang 2024.05.17</div>
-    </form>
-
-    <div class="nihss-form">
-        <h2>NIH Stroke Scale</h2>
-        <table>
-            <tr><td>1a 意識障礙程度 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
-            <tr><td>1b 意識障礙程度:回答問題 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>1c 意識障礙程度:照命令做動作 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>2 眼球運動 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>3 視力 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
-            <tr><td>4 顏面麻痺 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
-            <tr><td>5aL 左上肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
-            <tr><td>5bR 右上肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
-            <tr><td>6aL 左下肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
-            <tr><td>6bR 右下肢運動 (0-4):</td><td><input type="number" min="0" max="4"></td></tr>
-            <tr><td>7 肢體動作不協調 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>8 感覺障礙 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>9 言語障礙 (0-3):</td><td><input type="number" min="0" max="3"></td></tr>
-            <tr><td>10 構音障礙 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>11 感覺忽視 (0-2):</td><td><input type="number" min="0" max="2"></td></tr>
-            <tr><td>總分:</td><td><input type="number" disabled></td></tr>
-        </table>
     </div>
 
     <script>
-	   
+        // Fetch and display the content of the NIHSS.txt file
+        fetch('NIHSS.txt')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('txtContent').textContent = data;
+            })
+            .catch(error => {
+                console.error('Error fetching the NIHSS.txt:', error);
+            });
+
         function mergeAndSendRequest() {
             // Collect input values
-        const a = document.getElementById('a').value;
-        const b = document.getElementById('b').value;
-        const c = document.getElementById('c').value;
-        const d = document.getElementById('d').value;
-        const e = document.getElementById('e').value;
-        const k = document.getElementById('k').value;
-        const f = document.getElementById('f').value;
-        const g = document.getElementById('g').value;
-        const h = document.getElementById('h').value;
-        const i = document.getElementById('i').value;
-        const j = document.getElementById('j').value;
-	const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:. Try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Please do not significantly modify the narrative style of the content.  Here is the text:";
-        
-        const mergedText = `This is a ${a} with a history of ${b}. According to the patient's statement, he/she suffered from ${c}. Associated symptoms included ${d}. Denied symptoms included ${e}. After that, ${k}. Physical exam showed ${f}. Lab data showed ${g}. Image findings showed ${h}. Under the impression of ${i}, the patient was admitted to our ward for further management ${j}.`;
+            const a = document.getElementById('a').value;
+            const b = document.getElementById('b').value;
+            const c = document.getElementById('c').value;
+            const d = document.getElementById('d').value;
+            const e = document.getElementById('e').value;
+            const k = document.getElementById('k').value;
+            const f = document.getElementById('f').value;
+            const g = document.getElementById('g').value;
+            const h = document.getElementById('h').value;
+            const i = document.getElementById('i').value;
+            const j = document.getElementById('j').value;
+            const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:. Try to include units for all relevant data. Do not use any bold text or bullet points. Present the information in a continuous, narrative paragraph format. Please do not significantly modify the narrative style of the content.  Here is the text:";
+
+            const mergedText = `This is a ${a} with a history of ${b}. According to the patient's statement, he/she suffered from ${c}. Associated symptoms included ${d}. Denied symptoms included ${e}. After that, ${k}. Physical exam showed ${f}. Lab data showed ${g}. Image findings showed ${h}. Under the impression of ${i}, the patient was admitted to our ward for further management ${j}.`;
 
             // Display merged text
             document.getElementById('mergedText').textContent = mergedText;
@@ -208,73 +216,4 @@
             .then(data => {
                 if (data && data.candidates && data.candidates.length > 0 && data.candidates[0].content) {
                     const textContent = data.candidates[0].content.parts.map(part => part.text).join('\n');
-                    document.getElementById('apiResponse').textContent = textContent;
-                } else {
-                    document.getElementById('apiResponse').textContent = 'No content available';
-                }
-            })
-            .catch(error => {
-                document.getElementById('apiResponse').textContent = 'Error: ' + error;
-            });
-        }
-	 // 新增的useNewText函數
-    function useNewText() {
-        const newText = document.getElementById('newText').value;
-	const order = "Please help me correct grammatical and spelling errors. Do not modified any date. Do not use any bold text or bullet points. Here is the text:";
-
-        // 使用新的文本框內容作為mergedText
-        const mergedText = newText;
-
-        // 顯示合併後的文本
-        document.getElementById('mergedText').textContent = mergedText;
-
-        // 將合併後的文本複製到剪貼板
-        const textArea = document.createElement('textarea');
-        textArea.value = mergedText;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-
-        // 發送API請求
-        const API_KEY = 'AIzaSyA_35CjLSqweL1N-eLoGMeZ9947G5wG34E';
-        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-
-        fetch(`${API_URL}?key=${API_KEY}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                contents: [{
-                    parts: [{
-                        text: order + mergedText
-                    }]
-                }]
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.candidates && data.candidates.length > 0 && data.candidates[0].content) {
-                const textContent = data.candidates[0].content.parts.map(part => part.text).join('\n');
-                document.getElementById('apiResponse').textContent = textContent;
-            } else {
-                document.getElementById('apiResponse').textContent = 'No content available';
-            }
-        })
-        .catch(error => {
-            document.getElementById('apiResponse').textContent = 'Error: ' + error;
-        });
-    }
-function autoResizeTextarea(textarea) {
-        textarea.style.height = 'auto'; // 先將高度設為 auto，讓它可以縮小
-        textarea.style.height = (textarea.scrollHeight) + 'px'; // 根據內容自動調整高度
-    }
-
-    document.querySelectorAll('textarea').forEach(textarea => {
-        textarea.addEventListener('input', () => autoResizeTextarea(textarea));
-        autoResizeTextarea(textarea); // 初始化時調整高度
-    });
-    </script>
-</body>
-</html> 
+                    document.getElementById('apiResponse').textContent = text

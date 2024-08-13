@@ -1,0 +1,39 @@
+National institutes of health stroke scale
+1a 意識障礙程度(0-3):0
+1b 意識障礙程度:回答問題(0-2): 0
+1c 意識障礙程度:照命令做動作(0-2): 0
+2 眼球運動(0-2): 0
+3 視力(0-3): 0
+4 顏面麻痺(0-3):1
+5aL 左上肢運動(0-4):0
+5bR 右上肢運動(0-4):1
+6aL 左下肢運動(0-4):0
+6bR 右下肢運動(0-4): 1
+7 肢體動作不協調(0-2): 0
+8 感覺障礙(0-2): 1
+9 言語障礙(0-3): 0
+10 構音障礙(0-2): 1
+11 感覺忽視(0-2): 0
+總分:5
+
+[NE at ward on 08/03 14:45]
+E4V5M6
+[Cranial nerve]
+Pupil reflex 3+/3+
+EOM full, VF intact, ptosis(-), nystagmus(-)
+Facial sensation: onion skin normal, light touch symmetrical
+Facial palsy(-)
+Tongue deviation(-)
+Dysarthria(-)
+[Muscle power]
+RUL5, RLL4+, LUL5, LLL5
+[DTR]
++++/+++
+[Reflex]
+Babinski(R/L): withdraw/withdraw
+[Cerebellum]
+FNF: right very dysmetria
+HKS: no dysmetria
+[Sensation]
+Light touch: intact
+Pinprick: intact

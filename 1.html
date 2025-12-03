@@ -15,6 +15,26 @@
           --light-text: #fff;
           --border-color: #bdc3c7;
           --success-color: #2ecc71;
+          --card-bg: #ffffff;
+          --modal-bg: #ffffff;
+          --input-bg: #ffffff;
+          --hover-bg: #ecf0f1;
+      }
+
+      [data-theme="dark"] {
+          --primary-color: #1a252f;
+          --secondary-color: #2980b9;
+          --accent-color: #c0392b;
+          --light-bg: #2c3e50;
+          --dark-bg: #1a252f;
+          --text-color: #ecf0f1;
+          --light-text: #bdc3c7;
+          --border-color: #465c71;
+          --success-color: #27ae60;
+          --card-bg: #34495e;
+          --modal-bg: #2c3e50;
+          --input-bg: #465c71;
+          --hover-bg: #2c3e50;
       }
       
       * {
@@ -27,6 +47,7 @@
       body {
           background-color: var(--light-bg);
           color: var(--text-color);
+          transition: background-color 0.3s, color 0.3s;
       }
       
       .container {
@@ -43,6 +64,7 @@
           justify-content: space-between;
           align-items: center;
           flex-shrink: 0; /* Prevent header shrinking */
+          transition: background-color 0.3s;
       }
       
       .logo {
@@ -62,6 +84,7 @@
           padding: 0.5rem 1rem;
           border-radius: 4px;
           cursor: pointer;
+          transition: background-color 0.3s;
       }
       
       .main-content {
@@ -81,13 +104,14 @@
           /* overflow-y: auto;  REMOVED: Handle scroll in the list instead */
           border: 1px solid var(--border-color);
           border-radius: 8px;
-          background-color: #fff;
+          background-color: var(--card-bg); /* Use variable */
           box-shadow: 0 2px 10px rgba(0,0,0,0.1);
           
           /* ADDED: Flex layout for full height */
           display: flex;
           flex-direction: column;
           overflow: hidden; 
+          transition: background-color 0.3s, border-color 0.3s;
       }
       
       .form-group {
@@ -106,6 +130,8 @@
           border: 1px solid var(--border-color);
           border-radius: 4px;
           font-size: 1rem;
+          background-color: var(--input-bg);
+          color: var(--text-color);
       }
       
       textarea {
@@ -144,7 +170,7 @@
           flex-grow: 1;
           overflow-y: auto;
           
-          background-color: white;
+          background-color: var(--card-bg);
           border: 1px solid var(--border-color);
           border-radius: 4px;
       }
@@ -161,7 +187,7 @@
       }
       
       .template-item:hover {
-          background-color: var(--light-bg);
+          background-color: var(--hover-bg);
       }
       
       .template-item:last-child {
@@ -202,12 +228,12 @@
           width: 100%;
           padding: 1rem;
           margin-top: 0.75rem;
-          background-color: #f8f9fa;
+          background-color: var(--input-bg);
           border-top: 1px solid var(--border-color);
           white-space: pre-wrap; /* Preserve newlines and spaces */
           word-break: break-word;
           font-size: 0.9rem;
-          color: #333;
+          color: var(--text-color);
           border-radius: 4px;
       }
       
@@ -246,7 +272,8 @@
       
       .search-box input {
           padding-left: 2.5rem;
-          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
+          /* Update SVG color for dark mode compatibility using current color */
+          background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>');
           background-repeat: no-repeat;
           background-position: 0.75rem center;
           font-size: 1rem;
@@ -280,12 +307,13 @@
           margin-right: 5px;
           position: relative;
           bottom: -1px;
+          color: var(--text-color);
       }
       
       .tab.active {
-          background-color: white;
+          background-color: var(--card-bg);
           font-weight: bold;
-          border-bottom: 1px solid white;
+          border-bottom: 1px solid var(--card-bg);
       }
       
       .tab-content {
@@ -336,7 +364,8 @@
       
       /* UPDATED: Larger modal for editing - Mobile Friendly Fixes */
       #templateModal .modal-content {
-          background-color: white;
+          background-color: var(--modal-bg);
+          color: var(--text-color);
           padding: 1.5rem;
           border-radius: 8px;
           width: 95%; /* Wider on mobile */
@@ -380,7 +409,8 @@
       }
 
       .modal-content {
-        background-color: white;
+        background-color: var(--modal-bg);
+        color: var(--text-color);
         padding: 20px;
         border-radius: 5px;
         width: 90%;
@@ -402,7 +432,7 @@
       }
       
       .close:hover {
-          color: black;
+          color: var(--text-color);
       }
       
       .template-add-btn {
@@ -438,12 +468,56 @@
           cursor: pointer;
           font-weight: bold;
           border: 1px solid var(--border-color);
-          background-color: #f0f0f0;
+          background-color: var(--input-bg);
+          color: var(--text-color);
       }
       .modal-btn.confirm {
           background-color: var(--accent-color);
           color: white;
           border-color: var(--accent-color);
+      }
+
+      /* Toggle Switch for Dark Mode */
+      .theme-switch-wrapper {
+        display: flex;
+        align-items: center;
+      }
+      .theme-switch {
+        display: inline-block;
+        height: 24px;
+        position: relative;
+        width: 48px;
+      }
+      .theme-switch input {
+        display:none;
+      }
+      .slider {
+        background-color: #ccc;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: .4s;
+        border-radius: 34px;
+      }
+      .slider:before {
+        background-color: #fff;
+        bottom: 4px;
+        content: "";
+        height: 16px;
+        left: 4px;
+        position: absolute;
+        transition: .4s;
+        width: 16px;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: var(--secondary-color);
+      }
+      input:checked + .slider:before {
+        transform: translateX(24px);
       }
 
   </style>
@@ -453,6 +527,13 @@
     <header>
       <div class="logo">病例書寫模板輔助系統</div>
       <div class="user-controls">
+        <div class="theme-switch-wrapper" style="margin-right: 15px; display: flex; align-items: center;">
+            <span style="font-size: 0.8rem; margin-right: 5px;">🌙</span>
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
         <button id="settingsBtn">設定</button>
         <button id="helpBtn">說明</button>
       </div>
@@ -520,7 +601,7 @@
     </div>
     
     <footer>
-      © 2025 病例書寫模板輔助系統 | 版本 1.0
+      © 2025 病例書寫模板輔助系統 | 版本 1.2 (Dark Mode)
     </footer>
   </div>
   
@@ -589,8 +670,20 @@
     const personalTemplatesFilePath = "templates/personal_templates.json";
     const departmentTemplatesFilePath = "templates/department_templates.json";
     
-    // On page load, get template data from GitHub
+    // On page load
     document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Dark Mode Init
+      const toggleSwitch = document.querySelector('#checkbox');
+      const currentTheme = localStorage.getItem('theme');
+      if (currentTheme) {
+          document.documentElement.setAttribute('data-theme', currentTheme);
+          if (currentTheme === 'dark') {
+              toggleSwitch.checked = true;
+          }
+      }
+      toggleSwitch.addEventListener('change', switchTheme, false);
+
+      // 2. Load Data
       try {
         await loadHistoryTemplates();
         await loadPersonalTemplates();
@@ -627,6 +720,17 @@
         });
       });
     });
+
+    // Theme Switcher Function
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }    
+    }
     
     // Load common phrases templates from GitHub
     async function loadHistoryTemplates() {
@@ -876,7 +980,7 @@
         try {
             const successful = document.execCommand('copy');
             if (successful) {
-                showStatus(`'${templateTitle}' 的內容已複製！`, true);
+                showStatus(`'${templateTitle}' 內容已複製！`, true);
             } else {
                 showStatus('複製失敗', false);
             }
@@ -1033,7 +1137,7 @@
     
     // Help button click event
     document.getElementById('helpBtn').addEventListener('click', () => {
-      alert('Made by Shih-Hung Wang via Sonnet3.5 on 2025.03.28');
+      alert('Made by Shih-Hung Wang via Sonnet3.5 on 2025.03.28\n\n新功能：\n1. 深色模式 🌙');
     });
 </script>
 </body>

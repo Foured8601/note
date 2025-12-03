@@ -42,6 +42,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          flex-shrink: 0; /* Prevent header shrinking */
       }
       
       .logo {
@@ -77,11 +78,16 @@
           width: 100%;
           background-color: var(--light-bg);
           padding: 1rem;
-          overflow-y: auto;
+          /* overflow-y: auto;  REMOVED: Handle scroll in the list instead */
           border: 1px solid var(--border-color);
           border-radius: 8px;
           background-color: #fff;
           box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          
+          /* ADDED: Flex layout for full height */
+          display: flex;
+          flex-direction: column;
+          overflow: hidden; 
       }
       
       .form-group {
@@ -108,7 +114,12 @@
       }
       
       .template-section {
-          margin-bottom: 2rem;
+          /* margin-bottom: 2rem; REMOVED to fit flush */
+          /* ADDED: Flex properties */
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          min-height: 0; /* Important for nested flex scrolling */
       }
       
       .template-header {
@@ -120,6 +131,7 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          flex-shrink: 0; /* Prevent header shrinking */
       }
       
       .template-header h3 {
@@ -127,8 +139,11 @@
       }
       
       .template-list {
-          max-height: 300px;
+          /* max-height: 300px; REMOVED fixed height */
+          /* ADDED: Grow to fill space */
+          flex-grow: 1;
           overflow-y: auto;
+          
           background-color: white;
           border: 1px solid var(--border-color);
           border-radius: 4px;
@@ -226,6 +241,7 @@
       
       .search-box {
           margin-bottom: 1rem;
+          flex-shrink: 0; /* Don't shrink search box */
       }
       
       .search-box input {
@@ -243,6 +259,7 @@
           padding: 0.5rem 1rem;
           text-align: center;
           font-size: 0.8rem;
+          flex-shrink: 0;
       }
       
       /* Tabs for template categories */
@@ -250,6 +267,7 @@
           display: flex;
           margin-bottom: 1rem;
           border-bottom: 1px solid var(--border-color);
+          flex-shrink: 0; /* Don't shrink tabs */
       }
       
       .tab {
@@ -272,10 +290,15 @@
       
       .tab-content {
           display: none;
+          /* ADDED: Allow content area to grow */
+          flex-grow: 1;
+          min-height: 0; /* Crucial for scrolling inside flex items */
       }
       
       .tab-content.active {
-          display: block;
+          /* display: block; REMOVED */
+          display: flex;
+          flex-direction: column;
       }
       
       /* Status message style */
@@ -283,6 +306,7 @@
           margin-top: 10px;
           padding: 10px;
           border-radius: 4px;
+          flex-shrink: 0;
       }
       
       .status-success {

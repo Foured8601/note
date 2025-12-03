@@ -201,26 +201,28 @@
       }
       
       /* Save button style */
-.save-btn {
-    background-color: var(--success-color);
-    color: white;
-    padding: 0.75rem; /* Make the button thicker */
-    font-weight: bold; /* Bold text */
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.2); /* Add shadow for 3D effect */
-    transition: all 0.2s ease; /* Add transition effect */
-}
+      .save-btn {
+          background-color: var(--success-color);
+          color: white;
+          padding: 0.75rem; /* Make the button thicker */
+          font-weight: bold; /* Bold text */
+          border: none;
+          border-radius: 4px;
+          box-shadow: 0 4px 0 rgba(0,0,0,0.2); /* Add shadow for 3D effect */
+          transition: all 0.2s ease; /* Add transition effect */
+          flex-shrink: 0; /* Prevent button from shrinking */
+          margin-top: 10px;
+      }
 
-.save-btn:hover {
-    transform: translateY(2px); /* Slightly sink on hover */
-    box-shadow: 0 2px 0 rgba(0,0,0,0.2); /* Reduce shadow on hover */
-}
+      .save-btn:hover {
+          transform: translateY(2px); /* Slightly sink on hover */
+          box-shadow: 0 2px 0 rgba(0,0,0,0.2); /* Reduce shadow on hover */
+      }
 
-.save-btn:active {
-    transform: translateY(4px); /* Fully sink on click */
-    box-shadow: none; /* Remove shadow on click */
-}
+      .save-btn:active {
+          transform: translateY(4px); /* Fully sink on click */
+          box-shadow: none; /* Remove shadow on click */
+      }
       
       .search-box {
           margin-bottom: 1rem;
@@ -305,34 +307,52 @@
           background-color: rgba(0,0,0,0.5);
           align-items: center;
           justify-content: center;
+          padding: 1rem; /* Prevent touching screen edges */
       }
       
-      /* UPDATED: Larger modal for editing */
+      /* UPDATED: Larger modal for editing - Mobile Friendly Fixes */
       #templateModal .modal-content {
           background-color: white;
-          padding: 2rem;
+          padding: 1.5rem;
           border-radius: 8px;
-          width: 80vw;
+          width: 95%; /* Wider on mobile */
           max-width: 900px;
-          height: 80vh;
-          box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+          /* Critical Mobile Fixes: */
+          height: auto; 
+          max-height: 90vh; /* Never exceed 90% of screen height */
           display: flex;
           flex-direction: column;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      }
+      
+      @media (min-width: 768px) {
+          #templateModal .modal-content {
+              width: 80vw;
+              height: 80vh;
+          }
       }
 
-      /* UPDATED: Make textarea container grow */
+      #templateModal .form-group {
+          flex-shrink: 0; /* Prevent title from shrinking */
+      }
+
+      /* UPDATED: Make textarea container grow properly */
       #templateModal .form-group.content-group {
           flex-grow: 1;
           display: flex;
           flex-direction: column;
+          min-height: 0; /* Critical for nested flex scrolling */
+          margin-bottom: 0.5rem;
       }
       
-      /* UPDATED: Make textarea itself grow */
+      /* UPDATED: Make textarea itself scrollable internally */
       #templateModal #templateContent {
           flex-grow: 1;
-          resize: vertical;
           font-size: 1.1rem;
           line-height: 1.6;
+          resize: none; /* Disable manual resize to prevent layout breaking */
+          overflow-y: auto; /* Allow scrolling INSIDE the textarea */
+          height: 100%;
       }
 
       .modal-content {
@@ -354,6 +374,7 @@
           font-size: 28px;
           font-weight: bold;
           cursor: pointer;
+          margin-left: 10px;
       }
       
       .close:hover {
@@ -482,17 +503,20 @@
   <!-- Add/Edit Template Item Modal -->
   <div id="templateModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2 id="modalTitle">新增模板</h2>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+        <h2 id="modalTitle" style="margin: 0;">新增模板</h2>
+        <span class="close" style="line-height: 1;">&times;</span>
+      </div>
+      
       <div class="form-group">
         <label for="templateTitle">模板標題</label>
         <input type="text" id="templateTitle" placeholder="輸入模板標題">
       </div>
       <div class="form-group content-group">
         <label for="templateContent">模板文字內容</label>
-        <textarea id="templateContent" rows="15" placeholder="輸入模板文字內容"></textarea>
+        <textarea id="templateContent" placeholder="輸入模板文字內容"></textarea>
       </div>
-      <button id="saveTemplateBtn" class="save-btn" style="width: 100%; margin-top: 10px;">儲存</button>
+      <button id="saveTemplateBtn" class="save-btn">儲存</button>
     </div>
   </div>
 
@@ -988,7 +1012,5 @@
       alert('Made by Shih-Hung Wang via Sonnet3.5 on 2025.03.28');
     });
 </script>
-
-
 </body>
 </html>

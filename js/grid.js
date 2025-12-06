@@ -48,19 +48,21 @@ class Point {
         let dxMouse = mouse.x - this.x;
         let dyMouse = mouse.y - this.y;
         let distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
-        let distThreshold = 350; // Significantly enlarged radius for "Gravity Wave" effect
+        let distThreshold = 800; // Massive radius (approx 4-5x original perception)
 
         if (distMouse < distThreshold) {
             // Attraction force (pulls points towards mouse - indentation)
-            let force = (distThreshold - distMouse) / distThreshold;
+            // Using a power function (squared) for a smoother "curved" falloff
+            let rawForce = (distThreshold - distMouse) / distThreshold;
+            let force = rawForce * rawForce; // Smooth ease-in
+
             let angle = Math.atan2(dyMouse, dxMouse);
-            let strength = 1.5; // Reduced strength for subtler indentation
+            let strength = 2.4; // Reduced to 0.3x of previous (8.0 * 0.3)
 
             this.vx += Math.cos(angle) * force * strength;
             this.vy += Math.sin(angle) * force * strength;
         }
 
-        // Physics update
         this.vx *= this.friction;
         this.vy *= this.friction;
         this.x += this.vx;

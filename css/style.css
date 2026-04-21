@@ -893,6 +893,7 @@ body {
 }
 
 [data-theme="dark"] .slider { background-color: var(--accent); }
+[data-theme="dark"] .slider:before { background-color: var(--bg-color); }
 input:checked + .slider:before { transform: translateX(16px); }
 
 /* ---- Footer ---- */

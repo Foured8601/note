@@ -238,6 +238,34 @@ body {
 .search-clear svg { width: 14px; height: 14px; }
 .search-wrapper.has-value .search-clear { display: flex; }
 
+.search-toggles {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.toggle-pill {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    padding: 3px 10px;
+    border-radius: 14px;
+    transition: all var(--tr);
+    user-select: none;
+    font-weight: 500;
+    white-space: nowrap;
+}
+.toggle-pill input { display: none; }
+.toggle-pill:has(input:checked) {
+    border-color: var(--accent);
+    color: var(--accent-text);
+    background: var(--accent);
+}
+
 .sort-select {
     padding: 7px 10px;
     border-radius: var(--radius-md);
@@ -995,10 +1023,11 @@ input:checked + .slider:before { transform: translateX(16px); }
     .app-header h1 { font-size: 0.8125rem; }
     .header-meta { display: none; }
 
-    .toolbar { padding: 6px 0; }
+    .toolbar { padding: 6px 0; flex-wrap: wrap; }
+    .search-wrapper { flex: 0 0 100%; }
 
     /* Fat-finger Touch Targets */
-    .tab, .btn-sm, .btn-icon, .search-wrapper input, .sort-select { 
+    .tab, .btn-sm, .btn-icon, .search-wrapper input, .sort-select, .toggle-pill { 
         min-height: 44px; 
     }
     

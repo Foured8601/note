@@ -36,6 +36,10 @@
       <span class="kbd-hint">/</span>
       <button class="search-clear" id="searchClear" type="button" aria-label="清除搜尋"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
+    <div class="search-toggles">
+      <label class="toggle-pill" title="跨越分類，搜遍整個資料庫"><input type="checkbox" id="searchGlobalToggle"><span>全站</span></label>
+      <label class="toggle-pill" title="搜尋範圍包含模板內文而不再只是標題"><input type="checkbox" id="searchContentToggle"><span>內文</span></label>
+    </div>
     <select id="sortTemplate" class="sort-select">
       <option value="updatedDesc">最新更新</option>
       <option value="createdDesc">最新新增</option>
@@ -248,12 +252,12 @@ function setupListeners() {
   // Search with clear
   searchInput.addEventListener('input', function() {
     searchWrapper.classList.toggle('has-value', this.value.length > 0);
-    filterTemplates(this.value.toLowerCase());
+    renderUI();
   });
   clearBtn.addEventListener('click', () => {
     searchInput.value = '';
     searchWrapper.classList.remove('has-value');
-    filterTemplates('');
+    renderUI();
     searchInput.focus();
   });
 
@@ -261,8 +265,11 @@ function setupListeners() {
   document.getElementById('sortTemplate').addEventListener('change', function() {
     localStorage.setItem('sortMethod', this.value);
     renderUI();
-    if (searchInput.value) filterTemplates(searchInput.value.toLowerCase());
   });
+
+  // Search Toggles
+  document.getElementById('searchGlobalToggle').addEventListener('change', renderUI);
+  document.getElementById('searchContentToggle').addEventListener('change', renderUI);
 
   // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
@@ -473,15 +480,37 @@ function renderTemplateList() {
   const el = document.getElementById('dynamicTemplateList');
   el.innerHTML = '';
   const sortMethod = document.getElementById('sortTemplate').value;
-  let templates = appData.templates.filter(t => t.categoryId === currentCategoryId);
+  const term = document.getElementById('searchTemplate').value.toLowerCase();
+  const searchAll = document.getElementById('searchGlobalToggle').checked;
+  const searchContent = document.getElementById('searchContentToggle').checked;
+
+  let templates = appData.templates;
+  if (!searchAll) {
+    templates = templates.filter(t => t.categoryId === currentCategoryId);
+  }
+
+  if (term) {
+    templates = templates.filter(t => {
+      const matchTitle = t.title.toLowerCase().includes(term);
+      const matchContent = searchContent && t.content ? t.content.toLowerCase().includes(term) : false;
+      return matchTitle || matchContent;
+    });
+  }
 
   if (!templates.length) {
-    el.innerHTML = `
-      <div class="empty-state">
-        ${icons.emptyDoc}
-        <p>此分類尚無模板</p>
-        <button class="btn-sm btn-primary" onclick="document.getElementById('addTemplateBtn').click()">新增模板</button>
-      </div>`;
+    if (term) {
+      el.innerHTML = `
+        <div class="empty-state" style="padding-top: 40px;">
+          <p style="color:var(--text-muted);font-size:0.875rem;">找不到符合「<span style="color:var(--text-main);">${term}</span>」的結果</p>
+        </div>`;
+    } else {
+      el.innerHTML = `
+        <div class="empty-state">
+          ${icons.emptyDoc}
+          <p>此分類尚無模板</p>
+          <button class="btn-sm btn-primary" onclick="document.getElementById('addTemplateBtn').click()">新增模板</button>
+        </div>`;
+    }
     return;
   }
 
@@ -643,12 +672,6 @@ function closeSlideover() {
 }
 
 // ===== UTILITIES =====
-function filterTemplates(term) {
-  document.querySelectorAll('.tpl-card').forEach(c => {
-    const text = c.querySelector('.tpl-title').textContent.toLowerCase();
-    c.style.display = text.includes(term) ? '' : 'none';
-  });
-}
 
 function copyToClipboard(text, title) {
   if (navigator.clipboard && navigator.clipboard.writeText) {

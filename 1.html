@@ -47,8 +47,8 @@
   <div class="tabs-bar">
     <div class="tabs-scroll" id="dynamicTabs"></div>
     <div class="tabs-actions">
-      <button class="btn-icon primary" id="addCategoryBtn" title="新增分類" aria-label="新增分類">+</button>
-      <button class="btn-icon" id="manageCategoryBtn" title="管理分類" aria-label="管理分類">⚙</button>
+      <button class="btn-icon primary" id="addCategoryBtn" title="新增分類" aria-label="新增分類"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></button>
+      <button class="btn-icon" id="manageCategoryBtn" title="管理分類" aria-label="管理分類"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></button>
     </div>
   </div>
 
@@ -59,7 +59,7 @@
       <div class="list-header">
         <h2 id="currentCategoryTitle">分類名稱</h2>
         <div class="list-header-actions">
-          <button class="btn-sm btn-primary" id="addTemplateBtn" aria-label="新增模板">+ 新增</button>
+          <button class="btn-sm btn-primary" id="addTemplateBtn" aria-label="新增模板" style="display:inline-flex;align-items:center;gap:4px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>新增</button>
           <button class="btn-sm btn-ghost" id="syncAllBtn" aria-label="同步至 GitHub">同步</button>
         </div>
       </div>
@@ -103,7 +103,7 @@
   <div class="slideover" id="slideover">
     <div class="slideover-header">
       <h2 id="slideoverTitle">新增模板</h2>
-      <button class="slideover-close" id="slideoverClose" type="button">✕</button>
+      <button class="slideover-close" id="slideoverClose" type="button" aria-label="關閉"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     </div>
     <div class="slideover-body">
       <div>
@@ -130,7 +130,7 @@
   <div class="modal-content">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="margin:0;">新增分類</h2>
-      <button class="modal-close-btn" data-close="categoryModal" type="button">✕</button>
+      <button class="modal-close-btn" data-close="categoryModal" type="button" aria-label="關閉"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     </div>
     <div>
       <label class="field-label" for="categoryName">分類名稱</label>
@@ -148,7 +148,7 @@
   <div class="modal-content" style="max-width:480px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <h2 style="margin:0;">管理分類</h2>
-      <button class="modal-close-btn" data-close="manageCategoryModal" type="button">✕</button>
+      <button class="modal-close-btn" data-close="manageCategoryModal" type="button" aria-label="關閉"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
     </div>
     <div id="manageCategoryList" style="display:flex;flex-direction:column;gap:6px;max-height:55vh;overflow-y:auto;"></div>
   </div>
@@ -375,7 +375,7 @@ function refreshManageCategoryList() {
     input.type = 'text'; input.value = cat.name;
 
     const upBtn = document.createElement('button');
-    upBtn.textContent = '↑'; upBtn.className = 'cat-manage-btn move';
+    upBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>`; upBtn.className = 'cat-manage-btn move';
     if (index === 0) upBtn.style.opacity = '0.3';
     upBtn.onclick = async () => {
       if (index > 0) {
@@ -389,7 +389,7 @@ function refreshManageCategoryList() {
     };
 
     const downBtn = document.createElement('button');
-    downBtn.textContent = '↓'; downBtn.className = 'cat-manage-btn move';
+    downBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>`; downBtn.className = 'cat-manage-btn move';
     if (index === appData.categories.length - 1) downBtn.style.opacity = '0.3';
     downBtn.onclick = async () => {
       if (index < appData.categories.length - 1) {

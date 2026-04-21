@@ -5,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>病例書寫模板輔助系統</title>
   <meta name="description" content="醫療模板管理工具 — 快速複製病例書寫範本">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+<div class="glass-bg"></div>
 
 <div class="app">
   <!-- ======== Header ======== -->
@@ -32,7 +34,7 @@
       <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
       <input type="text" placeholder="搜尋模板..." id="searchTemplate" autocomplete="off">
       <span class="kbd-hint">/</span>
-      <button class="search-clear" id="searchClear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <button class="search-clear" id="searchClear" type="button" aria-label="清除搜尋"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <select id="sortTemplate" class="sort-select">
       <option value="updatedDesc">最新更新</option>
@@ -45,8 +47,8 @@
   <div class="tabs-bar">
     <div class="tabs-scroll" id="dynamicTabs"></div>
     <div class="tabs-actions">
-      <button class="btn-icon primary" id="addCategoryBtn" title="新增分類">+</button>
-      <button class="btn-icon" id="manageCategoryBtn" title="管理分類">⚙</button>
+      <button class="btn-icon primary" id="addCategoryBtn" title="新增分類" aria-label="新增分類">+</button>
+      <button class="btn-icon" id="manageCategoryBtn" title="管理分類" aria-label="管理分類">⚙</button>
     </div>
   </div>
 
@@ -57,8 +59,8 @@
       <div class="list-header">
         <h2 id="currentCategoryTitle">分類名稱</h2>
         <div class="list-header-actions">
-          <button class="btn-sm btn-primary" id="addTemplateBtn">+ 新增</button>
-          <button class="btn-sm btn-ghost" id="syncAllBtn">同步</button>
+          <button class="btn-sm btn-primary" id="addTemplateBtn" aria-label="新增模板">+ 新增</button>
+          <button class="btn-sm btn-ghost" id="syncAllBtn" aria-label="同步至 GitHub">同步</button>
         </div>
       </div>
       <div class="template-list" id="dynamicTemplateList"></div>
@@ -74,8 +76,8 @@
         <div class="detail-meta-row" id="detailMeta"></div>
         <div class="detail-body" id="detailBody"></div>
         <div class="detail-actions-bar">
-          <button class="btn-sm btn-primary" id="detailCopyBtn">複製內容</button>
-          <button class="btn-sm btn-ghost" id="detailEditBtn">編輯</button>
+          <button class="btn-sm btn-primary" id="detailCopyBtn" aria-label="複製內容">複製內容</button>
+          <button class="btn-sm btn-ghost" id="detailEditBtn" aria-label="編輯該模板">編輯</button>
         </div>
       </div>
     </div>
@@ -88,8 +90,8 @@
     <div class="detail-meta-row" id="mobileDetailMeta"></div>
     <div class="detail-body" id="mobileDetailBody" style="flex:1;overflow-y:auto;margin-top:10px;"></div>
     <div style="padding:12px 0; display:flex; gap:8px;">
-      <button class="btn-sm btn-primary" id="mobileDetailCopy" style="flex:1;">複製內容</button>
-      <button class="btn-sm btn-ghost" id="mobileDetailEdit">編輯</button>
+      <button class="btn-sm btn-primary" id="mobileDetailCopy" style="flex:1;" aria-label="複製內容">複製內容</button>
+      <button class="btn-sm btn-ghost" id="mobileDetailEdit" aria-label="編輯該模板">編輯</button>
     </div>
   </div>
 
@@ -344,6 +346,7 @@ function setupListeners() {
   // Mobile detail
   document.getElementById('mobileDetailBack').addEventListener('click', () => {
     document.getElementById('mobileDetail').classList.remove('open');
+    document.body.classList.remove('no-scroll');
   });
   document.getElementById('mobileDetailCopy').addEventListener('click', () => {
     const t = appData.templates.find(x => x.id === selectedTemplateId);
@@ -351,6 +354,7 @@ function setupListeners() {
   });
   document.getElementById('mobileDetailEdit').addEventListener('click', () => {
     document.getElementById('mobileDetail').classList.remove('open');
+    document.body.classList.remove('no-scroll');
     if (selectedTemplateId) openSlideover('edit', selectedTemplateId);
   });
 }
@@ -363,12 +367,40 @@ function refreshManageCategoryList() {
     list.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:20px;">尚無分類</div>';
     return;
   }
-  appData.categories.forEach(cat => {
+  appData.categories.forEach((cat, index) => {
     const row = document.createElement('div');
     row.className = 'cat-row';
 
     const input = document.createElement('input');
     input.type = 'text'; input.value = cat.name;
+
+    const upBtn = document.createElement('button');
+    upBtn.textContent = '↑'; upBtn.className = 'cat-manage-btn move';
+    if (index === 0) upBtn.style.opacity = '0.3';
+    upBtn.onclick = async () => {
+      if (index > 0) {
+        const temp = appData.categories[index - 1];
+        appData.categories[index - 1] = appData.categories[index];
+        appData.categories[index] = temp;
+        refreshManageCategoryList();
+        renderUI();
+        await saveAllTemplates('調整分類順序');
+      }
+    };
+
+    const downBtn = document.createElement('button');
+    downBtn.textContent = '↓'; downBtn.className = 'cat-manage-btn move';
+    if (index === appData.categories.length - 1) downBtn.style.opacity = '0.3';
+    downBtn.onclick = async () => {
+      if (index < appData.categories.length - 1) {
+        const temp = appData.categories[index + 1];
+        appData.categories[index + 1] = appData.categories[index];
+        appData.categories[index] = temp;
+        refreshManageCategoryList();
+        renderUI();
+        await saveAllTemplates('調整分類順序');
+      }
+    };
 
     const saveBtn = document.createElement('button');
     saveBtn.textContent = '儲存'; saveBtn.className = 'cat-manage-btn save';
@@ -390,6 +422,8 @@ function refreshManageCategoryList() {
     };
 
     row.appendChild(input);
+    row.appendChild(upBtn);
+    row.appendChild(downBtn);
     row.appendChild(saveBtn);
     row.appendChild(delBtn);
     list.appendChild(row);
@@ -529,6 +563,7 @@ function showDetail(tplId) {
     document.getElementById('mobileDetailMeta').innerHTML = `<span>更新 ${timeAgo(t.updatedAt)}</span><span>${wordCount(t.content)} 字</span>`;
     document.getElementById('mobileDetailBody').textContent = t.content;
     document.getElementById('mobileDetail').classList.add('open');
+    document.body.classList.add('no-scroll');
   }
 }
 
@@ -598,11 +633,13 @@ function openSlideover(mode, tId = null) {
   };
 
   bd.classList.add('open');
+  document.body.classList.add('no-scroll');
   setTimeout(() => titleInput.focus(), 300);
 }
 
 function closeSlideover() {
   document.getElementById('slideoverBackdrop').classList.remove('open');
+  document.body.classList.remove('no-scroll');
 }
 
 // ===== UTILITIES =====

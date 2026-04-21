@@ -271,7 +271,11 @@ body {
 .tabs-scroll {
     flex: 1;
     overflow-x: auto;
+    overflow-y: hidden;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
     display: flex;
+    align-items: center;
     gap: 2px;
     scrollbar-width: none;
 }
